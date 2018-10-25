@@ -23,3 +23,5 @@ docker/models/ACEModel_Insular8825_not_label.pkl
 docker/models/ACEModel_NucleusAccumbens8825_not_label.pkl
 docker/models/ACEModel_Putamen8825_not_label.pkl
 docker/models/ACEModel_Thalamus8825_not_label.pkl
+MNI_Test/__pycache__/CNNModel.cpython-37.pyc
+MNI_Test/__pycache__/DataSet.cpython-37.pyc

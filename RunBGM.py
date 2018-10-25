@@ -29,4 +29,6 @@ def RunBGM(BGM_path, dcm_folder_path):
         command += '-clear=0'
         RunCommandWithLog(command)
 
-RunBGM('\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\BGM\\TmvsBGM.exe', '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_Case\\Normal_MNI_DCM')
+#RunBGM('\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\BGM\\TmvsBGM.exe', '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_Case\\Normal_MNI_DCM')
+RunBGM('\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\BGM\\TmvsBGM.exe', r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\Normal_MNI_DCM')
+RunBGM('\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\BGM\\TmvsBGM.exe', r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\AD_MNI_DCM')

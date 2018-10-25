@@ -32,8 +32,8 @@ def SelectOneVloume(path, search_keys, selected_path):
 # 0 sequence name for example MPRAGE
 # 1 slices number
 # 2 search count
-def SerachVolume(path, search_keys):
-    log_path = path + '\\' + search_keys[0]+ '_volume_search_log.txt'
+def SerachVolume(path, search_keys, log_path):
+    log_path = log_path + '\\' + search_keys[0]+ '_volume_search_log_1023.txt'
     file = open(log_path, 'w')
     selected_file_list = []
     search_count = 0;
@@ -63,12 +63,12 @@ def SerachVolume(path, search_keys):
            break          
     return selected_file_list 
 
-search_keys =['MPRAGE','100', '50']
+search_keys =['MPRAGE','100', '160']
 results = []
-results = SerachVolume('\\\\storage.wsd.local\\Warehouse\\Data\\ADNI\\Normal\\ADNI', search_keys)
-FolderCopy(results, '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_Case\\Normal')
+results = SerachVolume('\\\\storage.wsd.local\\Warehouse\\Data\\ADNI\\Normal\\ADNI', search_keys, r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\log')
+FolderCopy(results, '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_150_Case\\Normal')
 results = []
-results = SerachVolume('\\\\storage.wsd.local\\Warehouse\\Data\\ADNI_RENEW\\AD\\ADNI', search_keys)
-FolderCopy(results, '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_Case\\AD')
+results = SerachVolume('\\\\storage.wsd.local\\Warehouse\\Data\\ADNI_RENEW\\AD\\ADNI', search_keys, r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\log')
+FolderCopy(results, '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_150_Case\\AD')
 
 print('Finish!')
