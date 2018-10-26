@@ -1,28 +1,27 @@
 import torch
-import DataSet
-import CNNModel
+import BrainDataSet
+import BrainModel
 from torch.autograd import Variable
 if __name__ == '__main__':
 
-
-
-
-    
-    train_data = DataSet.DataSet(r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_Case\Test_Case\TestCase_Hippocampus\Train')
+    train_data = BrainDataSet.DataSet(r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\TestCase_Brain\Train')
     train_loader = torch.utils.data.DataLoader(dataset=train_data, batch_size=1, shuffle=True, num_workers=1)
 
-    model = CNNModel.CNNModel().cuda()
+    #model = BrainModel.BrainModel().cuda()
+    model = BrainModel.BrainModel()
     optimizer = torch.optim.Adam(model.parameters())
-    loss_func = torch.nn.BCEWithLogitsLoss().cuda()
+    #loss_func = torch.nn.BCEWithLogitsLoss().cuda()
+    loss_func = torch.nn.BCEWithLogitsLoss()
     loss_vec = []
     sample_num = 0
     correct = 0
     for step, (batch_x, batch_y) in enumerate(train_loader):
-        height,width,depth = train_data.getRawDataDimension()
-        image = Variable(batch_x.view(-1, 1, depth, height, width).cuda())
+        depth,height,width= train_data.getRawDataDimension()
+        #image = Variable(batch_x.view(-1, 1, depth, height, width).cuda())
+        image = Variable(batch_x.view(-1, 1, depth, height, width))
         out = model(image)
         idxs = [y for y in batch_y]
-        target = Variable(torch.FloatTensor(idxs)).cuda()
+        target = Variable(torch.FloatTensor(idxs))
         loss = loss_func(out.squeeze(1), target)
         loss.cpu()
         loss_data = loss.cpu().data

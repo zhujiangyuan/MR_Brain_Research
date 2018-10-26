@@ -25,3 +25,11 @@ docker/models/ACEModel_Putamen8825_not_label.pkl
 docker/models/ACEModel_Thalamus8825_not_label.pkl
 MNI_Test/__pycache__/CNNModel.cpython-37.pyc
 MNI_Test/__pycache__/DataSet.cpython-37.pyc
+.vscode/launch.json
+.vscode/settings.json
+MNI_Test/__pycache__/BrainDataSet.cpython-37.pyc
+MNI_Test/__pycache__/BrainModel.cpython-37.pyc
+MNI_Test/__pycache__/ProgramException.cpython-37.pyc
+*.pyc
+MNI_Test/__pycache__/ProgramException.cpython-37.pyc
+MNI_Test/__pycache__/ProgramException.cpython-37.pyc
