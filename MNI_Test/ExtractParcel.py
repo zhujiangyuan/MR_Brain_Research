@@ -22,7 +22,7 @@ class ExtractParcel:
         # 'EntorhinalArea': [47, 48]
     }
 
-    def __init__(self, label_folders, dcm_folders, output_folders, log_path, parcel_index_map = None, parcel_shape = None, parcel_interval = None ):
+    def __init__(self, label_folders, dcm_folders, output_folders, log_path, parcel_interval_file_path = None, parcel_index_map = None):
         self.label_folders = label_folders
         self.dcm_folders = dcm_folders
         self.output_folders = output_folders
@@ -33,10 +33,33 @@ class ExtractParcel:
            print('Defalt parcel index map is used.')
         else:
            self.parcel_index_map = parcel_index_map
-        if parcel_shape == None or parcel_interval == None:
+        if parcel_interval_file_path == None:
            self.staticAllParcelLocation()
+        else:
+           self.parcel_interval_file_path = parcel_interval_file_path
+           self.ReadParcelInterval()
         self.extratAllParcels()
     
+    def ReadParcelInterval(self):
+        parcel_interval = {} #保存统计结果
+        file = open(self.parcel_interval_file_path,'r')
+        while True:
+            line = file.readline()
+            if len(line) == 0:
+                break;
+            else:
+                info = line.strip('\n')
+                info = info.split('@')
+                parcel_name = info[0]
+                d_min = int(info[1].split('_')[1])
+                h_min = int(info[2].split('_')[1])
+                w_min = int(info[3].split('_')[1])
+                d_max = int(info[1].split('_')[2])
+                h_max = int(info[2].split('_')[2])
+                w_max = int(info[3].split('_')[2])
+                parcel_interval[parcel_name] = [d_min, h_min, w_min, d_max, h_max, w_max]
+        file.close()
+        self.parcel_interval = parcel_interval
 
     def CheckFolders(self):
         num_array = np.zeros(3,np.uint8)
@@ -191,19 +214,7 @@ class ExtractParcel:
 
     #extract parcel
     def extractParcel(self, dcm_dir, output_dir, label_dir):
-        
-        '''
-        根据label目录统计所有病人各个parcel的大小和范围
-    
-        Parameters:
-        NC_raw_data_dir - 字符串，配准后DICOM数据路径
-        parcel_interval - 字典，存储各个parcel的位置（6个数值表示）
-        NC_parcel_dir - 字符串，提取的parcel数据的存储路径
-    
-        Returns:
-        None
-        
-        '''
+
         dcm_list = sorted(os.listdir(dcm_dir))
         for i, subject_name in enumerate(dcm_list):
             print('NO.'+str(i)+' Save Patient '+subject_name[:-7]+'\'s parcel ...')
@@ -227,13 +238,15 @@ class ExtractParcel:
                     tmp[tmp==index] = 1
                     parcel_mask = parcel_mask + tmp #计算parcel掩模
                     
-                parcel_data = parcel_mask*ds #掩模后的的图像
+                parcel_data = ds #掩模后的的图像
                 #print(parcel_data, parcel_data.min(), parcel_data.max())
                 
                 p_range = self.parcel_interval[parcel_name]#parcel位置
+                parcel_data = parcel_data.astype(np.float32)   
                 output_data = parcel_data[p_range[0]:p_range[3]+1,
                                         p_range[1]:p_range[4]+1,
                                         p_range[2]:p_range[5]+1]
+                                     
                 voloume_ID = subject_name.split('.')[0].split('_')[0] 
                 output_data.tofile(os.path.join(output_dir, str(subject_name[:-4]),
                                                 parcel_name+ '_' + voloume_ID + '.raw'))
@@ -288,11 +301,12 @@ if __name__ == "__main__":
     #提取parcel并保存
     #extract_parcel(nc_dcm_working_path, parcel_interval, nc_parcel_working_path, nc_label_working_path)
 
-    label_folders =['\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_Case\\AD_MNI_DCM_label_output',
-              '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_Case\\Normal_MNI_DCM_label_output']   
-    dcm_folders =['\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_Case\\AD_MNI_DCM',
-              '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_Case\\Normal_MNI_DCM']  
-    output_parcel_folders =['\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_Case\\AD_MNI_DCM_Parcel_1022',
-              '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_Case\\Normal_MNI_DCM_Parcel_1022']     
-    test = ExtractParcel(label_folders,dcm_folders, output_parcel_folders,'\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_Case\\parcel_range_result_100.txt' )
+    label_folders =['\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_150_Case\\AD_MNI_DCM_label_output',
+              '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_150_Case\\Normal_MNI_DCM_label_output']   
+    dcm_folders =['\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_150_Case\\AD_MNI_DCM',
+              '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_150_Case\\Normal_MNI_DCM']  
+    output_parcel_folders =['\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_150_Case\\AD_MNI_Parcel_Range_RAW',
+              '\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_150_Case\\Normal_MNI_Parcel_Range_RAW']     
+    test = ExtractParcel(label_folders,dcm_folders, output_parcel_folders,'\\\\storage.wsd.local\\Warehouse\\Data\\zhujiangyuan\\MNI_Test_150_Case\\log\\parcel_range_result_100.txt',
+    r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\log\parcel_range_result_100.txt' )
     print('Finish!')

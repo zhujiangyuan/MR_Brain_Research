@@ -12,8 +12,8 @@ class DataSet(data.Dataset):
     def __init__(
         self, 
         data_root_path, 
-        parcel_name = 'Hippocampus',
-        parcel_structure = ['Width=90', 'Height=45', 'Depth=51', 'WidthRange=32-121', 'HeightRange=65-109',  'DepthRange=34-84'],
+        parcel_name = 'Putamen',
+        parcel_structure = ['Width=83', 'Height=55', 'Depth=43', 'WidthRange=32-121', 'HeightRange=65-109',  'DepthRange=34-84'],
         data_folder_structure = [['NC', 'Normal'], ['AD', 'AD']],
     ):
          self.data_root_path = data_root_path
