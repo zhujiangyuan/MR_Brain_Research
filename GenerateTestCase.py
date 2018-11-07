@@ -44,13 +44,13 @@ def createParcelTestCase(nc_root, type, case_root, parcel_info_root):
         CopyFiles(train_list, train_root_dir)        
         CopyFiles(test_list, test_root_dir)  
 
-createParcelTestCase(r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\AD_MNI_Parcel_Range_RAW','AD',
-r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\Test_Case_Parcel_Range',
+createParcelTestCase(r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\AD_MNI_Parcel_RAW','AD',
+r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\Test_Case_Parcel',
 r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\log\parcel_range_result_100.txt')
 
 
-createParcelTestCase(r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\Normal_MNI_Parcel_Range_RAW','NC',
-r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\Test_Case_Parcel_Range',
+createParcelTestCase(r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\Normal_MNI_Parcel_RAW','NC',
+r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\Test_Case_Parcel',
 r'\\storage.wsd.local\Warehouse\Data\zhujiangyuan\MNI_Test_150_Case\log\parcel_range_result_100.txt')
 
 def createBrainTestCase(root, type, case_root):

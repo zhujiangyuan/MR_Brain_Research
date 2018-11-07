@@ -3,7 +3,7 @@ import math
 
 
 class CNNModel(torch.nn.Module):
-    def __init__(self, D_in = 576, H = 100):
+    def __init__(self, D_in = 504, H = 100):
         super(CNNModel, self).__init__()
         self.encoder = torch.nn.Sequential(
             torch.nn.Conv3d(1, 16, 3, stride=3, padding=1), #16* 62*86*86
